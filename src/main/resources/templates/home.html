@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Home Page</title>
+	</head>
+	
+	<body>
+		<h2>Hello!</h2>
+		
+		<h3>Cari Pegawai Berdasarkan NIP</h3>
+		<form th:action="@{/pegawai}" method="GET">
+			NIP: <br>
+			<input type="text" name="nip" />
+			<button type="submit">Cari</button>
+		</form>
+	</body>
+</html>
