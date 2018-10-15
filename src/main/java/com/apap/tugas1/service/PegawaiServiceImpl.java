@@ -21,4 +21,9 @@ public class PegawaiServiceImpl implements PegawaiService{
 	public PegawaiModel getDataPegawaiByNIP(String nip) {
 		return pegawaiDb.findBynip(nip);
 	}
+
+	@Override
+	public void addPegawai(PegawaiModel pegawai) {
+		pegawaiDb.save(pegawai);
+	}
 }

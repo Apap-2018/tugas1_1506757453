@@ -4,16 +4,61 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<title>Home Page</title>
+		
+		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
 	</head>
 	
 	<body>
-		<h2>Hello!</h2>
+		<nav th:replace="fragments/fragment :: navbar"></nav>
 		
-		<h3>Cari Pegawai Berdasarkan NIP</h3>
-		<form th:action="@{/pegawai}" method="GET">
-			NIP: <br>
-			<input type="text" name="nip" />
-			<button type="submit">Cari</button>
-		</form>
+		<div class="container-fluid">
+			<h2>Sistem Informasi Kepegawaian</h2>
+			<h5>Selamat Datang di Sistem Informasi Kepegawaian</h5>
+			
+			<hr>
+			
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-header">
+							Lihat Data Pegawai Berdasarkan NIP
+						</div>
+						<form th:action="@{/pegawai}" method="GET">
+							<div class="card-body">
+								<label for="licenseNumber">Masukkan Nomor Induk Pegawai</label>
+								<input required type="text" name="nip" class="form-control" />
+								<p></p>
+								<button type="submit" class="btn btn-primary">Lihat</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			
+			<hr>
+			
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card">
+						<div class="card-header">
+							Lihat Detail Jabatan
+						</div>
+						<form th:action="@{/jabatan/view}" method="GET">
+							<div class="card-body">
+								<label for="jabatan">Pilih Jabatan</label>
+								<select name="idJabatan" class="form-control">
+									<option
+					                   th:each="jabatan,iterationStatus: ${allJabatan}"
+					                   th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
+								</select>
+								<p></p>
+								<button type="submit" class="btn btn-primary">Lihat</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

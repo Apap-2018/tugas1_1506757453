@@ -3,8 +3,13 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<title>Detail Pegawai</title>
+		
+		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
 	</head>
 	<body>
+		<nav th:replace="fragments/fragment :: navbar"></nav>
+		
 		<h3 th:text="'Lihat Data Pegawai - ' + ${pegawai.nip}"></h3>
 			<table>
 				<tbody>

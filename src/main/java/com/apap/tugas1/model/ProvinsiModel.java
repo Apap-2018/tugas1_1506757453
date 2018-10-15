@@ -61,4 +61,12 @@ public class ProvinsiModel {
 		this.presentaseTunjangan = presentaseTunjangan;
 	}
 
+	public List<InstansiModel> getListInstansi() {
+		return listInstansi;
+	}
+
+	public void setListInstansi(List<InstansiModel> listInstansi) {
+		this.listInstansi = listInstansi;
+	}
+	
 }
