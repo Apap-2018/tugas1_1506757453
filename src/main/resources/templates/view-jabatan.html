@@ -32,6 +32,12 @@
 						<p th:text="${jabatan.gajiPokok}"></p>
 					</div>
 			</div>
+			<div class="row">
+				<label for="jumlahPegawai" class="col-sm-3 col-form-label-md">Jumlah Pegawai</label>
+					<div class="col-sm-9">
+						<p th:text="${jabatan.listPegawai.size()}"></p>
+					</div>
+			</div>
 			
 			<div class="row">
 				<form th:action="@{/jabatan/ubah}" class="form-inline" method="GET">

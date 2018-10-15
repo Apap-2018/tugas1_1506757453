@@ -26,7 +26,7 @@
 	<body>
 		<nav th:replace="fragments/fragment :: navbar"></nav>
 		
-		<div class="container">
+		<div class="container-fluid">
 			<div class="col">
 				<table border="1" id="all_jabatan_table">
 				<caption>All Jabatan</caption>
@@ -34,6 +34,7 @@
 					<tr>
 						<th style="text-align: center">Nama</th>
 						<th style="text-align: center">Deskripsi</th>
+						<th style="text-align: center">Jumlah Pegawai</th>
 						<th style="text-align: center">Gaji Pokok</th>
 					</tr>
 				</thead>
@@ -41,6 +42,7 @@
 					<tr th:each="jabatan,iterationStatus : ${allJabatan}">
 						<td th:text="${jabatan.nama}"></td>
 						<td th:text="${jabatan.deskripsi}"></td>
+						<td th:text="${jabatan.listPegawai.size()}"></td>
 						<td th:text="${jabatan.gajiPokok}"></td>
 					</tr>
 				</tbody>

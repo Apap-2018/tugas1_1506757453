@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.apap.tugas1.model.JabatanModel;
 import com.apap.tugas1.model.PegawaiModel;
+import com.apap.tugas1.service.InstansiService;
 import com.apap.tugas1.service.JabatanService;
 import com.apap.tugas1.service.PegawaiService;
 import com.apap.tugas1.service.ProvinsiService;
@@ -28,6 +28,8 @@ public class PegawaiController {
 	private JabatanService jabatanService;
 	@Autowired
 	private ProvinsiService provinsiService;
+	@Autowired
+	private InstansiService instansiService;
 	
 	private PegawaiModel pegawaiArch;
 	
@@ -62,25 +64,35 @@ public class PegawaiController {
 		model.addAttribute("pegawai", pegawaiArch);
 		model.addAttribute("allProvinsi", ((ProvinsiService) provinsiService).getProvinsiDb().findAll());
 		model.addAttribute("allJabatan", ((JabatanService) jabatanService).getJabatanDb().findAll());
+		model.addAttribute("allInstansi", ((InstansiService) instansiService).getInstansiDb().findAll());
 		return "add-pegawai";
 	}
 	
 	@RequestMapping(value = "/pegawai/tambah", params= {"addMoreJabatan"})
-	private String addMoreJabatan(@ModelAttribute PegawaiModel pegawaiArch, BindingResult bindingResult, Model model) {
+	private String addMoreJabatan(Model model) {
 		pegawaiArch.getListJabatan().add(new JabatanModel());
 		
 		model.addAttribute("pegawai", pegawaiArch);
 		model.addAttribute("allProvinsi", ((ProvinsiService) provinsiService).getProvinsiDb().findAll());
 		model.addAttribute("allJabatan", ((JabatanService) jabatanService).getJabatanDb().findAll());
+		model.addAttribute("allInstansi", ((InstansiService) instansiService).getInstansiDb().findAll());
 		return "add-pegawai";
 	}
 	
-	@RequestMapping(value = "/pegawai/tambah", method = RequestMethod.POST)
+	@RequestMapping(value = "/pegawai/tambah", params={"submit"}, method = RequestMethod.POST)
 	private String addPilotSubmit(@ModelAttribute PegawaiModel pegawai) {
-		
-		
 		pegawaiService.addPegawai(pegawai);
 		return "success-tambah-pegawai";
+	}
+	
+	@RequestMapping(value = "/pegawai/termuda-tertua", method = RequestMethod.GET)
+	private String getPilotTertuaTermuda(@RequestParam("idInstansi") Long idInstansi, Model model) {
+		PegawaiModel tertua = pegawaiService.getPegawaiTertuaDiInstansi(idInstansi);
+		PegawaiModel termuda = pegawaiService.getPegawaiTermudaDiInstansi(idInstansi);
+		
+		model.addAttribute("tertua", tertua);
+		model.addAttribute("termuda", termuda);
+		return "view-pegawai-tertua-termuda";
 	}
 	
 	
