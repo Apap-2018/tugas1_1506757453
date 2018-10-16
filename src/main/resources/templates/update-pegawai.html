@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="ISO-8859-1">
-		<title>Tambah Pegawai</title>
+		<title>Ubah Pegawai</title>
 		
 		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
 		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
@@ -13,37 +13,37 @@
 		<nav th:replace="fragments/fragment :: navbar"></nav>
 		
 		<div class="col-5">
-			<h3>Tambah Pegawai</h3>
-			<form th:action="@{/pegawai/tambah}" th:object="${pegawai}" method="POST">
+			<h3>Ubah Pegawai</h3>
+			<form th:action="@{/pegawai/ubah}" th:object="${pegawai}" method="POST">
 				<input type="hidden" th:value="${pegawai.nip}"></input>
 				<div class="form-group row">
 					<label for="nama" class="col-sm-3 col-form-label-md">Nama</label>
 					<div class="col-sm-9">
-						<input required type="text" name="nama" class="form-control" id="nama" />
+						<input required th:value="${pegawai.nama}" type="text" name="nama" class="form-control" id="nama" />
 					</div>
 				</div>
 				<div class="form-group row">
 					<label for="tempatLahir" class="col-sm-3 col-form-label-md">Tempat Lahir</label>
 					<div class="col-sm-9">
-						<input required type="text" name="tempatLahir" class="form-control" id="tempatLahir" />
+						<input required th:value="${pegawai.tempatLahir}" type="text" name="tempatLahir" class="form-control" id="tempatLahir" />
 					</div>
 				</div>
 				<div class="form-group row">
 					<label for="tanggalLahir" class="col-sm-3 col-form-label-md">Tanggal Lahir</label>
 					<div class="col-sm-9">
-						<input required type="date" name="tanggalLahir" class="form-control" id="tanggalLahir" />
+						<input required th:value="${pegawai.tanggalLahir}" type="date" name="tanggalLahir" class="form-control" id="tanggalLahir" />
 					</div>
 				</div>
 				<div class="form-group row">
 					<label for="tahunMasuk" class="col-sm-3 col-form-label-md">Tahun Masuk</label>
 					<div class="col-sm-9">
-						<input required type="number" name="tahunMasuk" class="form-control" id="tahunMasuk" value="1980"/>
+						<input required th:value="${pegawai.tahunMasuk}" type="number" name="tahunMasuk" class="form-control" id="tahunMasuk" value="1980"/>
 					</div>
 				</div>
 				<div class="form-group row">
 					<label for="provinsi" class="col-sm-3 col-form-label-md">Provinsi</label>
 					<div class="col-sm-9">
-						<select required name="provinsi" id="provinsi" class="form-control">
+						<select required th:value="${pegawai.provinsi.id}" name="provinsi" id="provinsi" class="form-control">
 							<option
 			                    th:each="provinsi,iterationStatus: ${allProvinsi}"
 			                    th:text="${provinsi.nama}" th:value="${provinsi.id}"></option>
@@ -53,7 +53,7 @@
 				<div class="form-group row">
 					<label for="instansi" class="col-sm-3 col-form-label-md">Nama Instansi</label>
 					<div class="col-sm-9">
-						<select required name="instansi" id="instansi" class="form-control">
+						<select required th:value="${pegawai.instansi.id}" name="instansi" id="instansi" class="form-control">
 							<option  th:each="instansi, iterationStatus:${allInstansi}"
 								th:text="${instansi.nama}" th:value="${instansi.id}">Pilih Instansi</option>
 						</select>
@@ -63,12 +63,11 @@
 					<label for="jabatan" class="col-sm-3 col-form-label-md">Jabatan</label>
 					<div class="col-sm-9">
 						<div th:each="aJabatan,iterationStatus : *{listJabatan}">
-							<select required th:field="*{listJabatan[__${iterationStatus.index}__]}" class="form-control">
+							<select required th:field="*{listJabatan[__${iterationStatus.index}__].id}" class="form-control">
 								<option
 				                   th:each="jabatan,iterationStat: ${allJabatan}"
 				                   th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
 							</select>
-							<br>
 						</div>
 						<input formnovalidate type="submit" name="addMoreJabatan" value="Tambah jabatan">
 					</div>

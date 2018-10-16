@@ -7,9 +7,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.apap.tugas1.model.InstansiModel;
+import com.apap.tugas1.model.JabatanModel;
 import com.apap.tugas1.model.PegawaiModel;
 import com.apap.tugas1.repository.InstansiDb;
+import com.apap.tugas1.repository.JabatanDb;
 import com.apap.tugas1.repository.PegawaiDb;
 import com.apap.tugas1.repository.ProvinsiDb;
 
@@ -25,6 +26,8 @@ public class PegawaiServiceImpl implements PegawaiService{
 	private InstansiDb instansiDb;
 	@Autowired
 	private ProvinsiDb provinsiDb;
+	@Autowired
+	private JabatanDb jabatanDb;
 	
 	@Override
 	public PegawaiModel getDataPegawaiByNIP(String nip) {
@@ -88,6 +91,11 @@ public class PegawaiServiceImpl implements PegawaiService{
 			}
 		}
 		return youngest;
+	}
+
+	@Override
+	public PegawaiDb getPegawaiDb() {
+		return pegawaiDb;
 	}
 
 	

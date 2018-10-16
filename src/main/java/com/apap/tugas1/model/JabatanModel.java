@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -40,12 +42,16 @@ public class JabatanModel implements Serializable{
 	@Column(name = "gaji_pokok", nullable = false)
 	private double gajiPokok;
 	
-	@ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                CascadeType.PERSIST,
-                CascadeType.MERGE
-            },
-            mappedBy = "listJabatan")
+//	@ManyToMany(fetch = FetchType.LAZY,
+//            cascade = {
+//                CascadeType.PERSIST,
+//                CascadeType.MERGE
+//            },
+//            mappedBy = "listJabatan")
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "jabatan_pegawai",
+	        joinColumns = @JoinColumn(name = "id_jabatan", referencedColumnName = "id"),
+	        inverseJoinColumns = @JoinColumn(name = "id_pegawai", referencedColumnName = "id"))
 	private List<PegawaiModel> listPegawai;
 
 	public long getId() {

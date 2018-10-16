@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -69,8 +70,9 @@ public class PegawaiController {
 	}
 	
 	@RequestMapping(value = "/pegawai/tambah", params= {"addMoreJabatan"})
-	private String addMoreJabatan(Model model) {
-		pegawaiArch.getListJabatan().add(new JabatanModel());
+	private String addMoreJabatan(@ModelAttribute PegawaiModel pegawai, BindingResult bindingResult, Model model) {
+		pegawai.setListJabatan(pegawaiArch.getListJabatan());
+		pegawai.getListJabatan().add(new JabatanModel());
 		
 		model.addAttribute("pegawai", pegawaiArch);
 		model.addAttribute("allProvinsi", ((ProvinsiService) provinsiService).getProvinsiDb().findAll());
@@ -80,9 +82,63 @@ public class PegawaiController {
 	}
 	
 	@RequestMapping(value = "/pegawai/tambah", params={"submit"}, method = RequestMethod.POST)
-	private String addPilotSubmit(@ModelAttribute PegawaiModel pegawai) {
+	private String addPegawaiSubmit(@ModelAttribute PegawaiModel pegawai) {
 		pegawaiService.addPegawai(pegawai);
+		
 		return "success-tambah-pegawai";
+		//pegawaiService.addPegawai(pegawai);
+	}
+	
+	@RequestMapping(value = "/pegawai/ubah", method = RequestMethod.GET)
+	private String update(@RequestParam("nip") String nip, Model model) {
+		PegawaiModel pegawai = pegawaiService.getDataPegawaiByNIP(nip);
+		pegawai.setListJabatan(new ArrayList<JabatanModel>());
+		pegawai.getListJabatan().add(new JabatanModel());
+		
+		model.addAttribute("pegawai", pegawai);
+		model.addAttribute("allProvinsi", ((ProvinsiService) provinsiService).getProvinsiDb().findAll());
+		model.addAttribute("allJabatan", ((JabatanService) jabatanService).getJabatanDb().findAll());
+		model.addAttribute("allInstansi", ((InstansiService) instansiService).getInstansiDb().findAll());
+		return "add-pegawai";
+	}
+	
+	@RequestMapping(value = "/pegawai/tambah", params= {"addMoreJabatanUpdate"})
+	private String addMoreJabatanUpdate(@ModelAttribute PegawaiModel pegawai, BindingResult bindingResult, Model model) {
+		pegawai.getListJabatan().add(new JabatanModel());
+		
+		model.addAttribute("pegawai", pegawai);
+		model.addAttribute("allProvinsi", ((ProvinsiService) provinsiService).getProvinsiDb().findAll());
+		model.addAttribute("allJabatan", ((JabatanService) jabatanService).getJabatanDb().findAll());
+		model.addAttribute("allInstansi", ((InstansiService) instansiService).getInstansiDb().findAll());
+		return "add-pegawai";
+	}
+	
+	@RequestMapping(value = "/pegawai/ubah", params={"submit"}, method = RequestMethod.POST)
+	private String updatePegawaiSubmit(@ModelAttribute PegawaiModel pegawai) {
+		return "success-add-pegawai";
+		//pegawaiService.addPegawai(pegawai);
+	}
+	
+	@RequestMapping(value = "/pegawai/cari", method = RequestMethod.GET)
+	private String cari(Model model) {
+		model.addAttribute("listPegawai", ((PegawaiService) pegawaiService).getPegawaiDb().findAll());
+		model.addAttribute("allProvinsi", ((ProvinsiService) provinsiService).getProvinsiDb().findAll());
+		model.addAttribute("allInstansi", ((InstansiService) instansiService).getInstansiDb().findAll());
+		model.addAttribute("allJabatan", ((JabatanService) jabatanService).getJabatanDb().findAll());
+		return "cari-pegawai";
+	}
+	
+	@RequestMapping(value = "/pegawai/cari", params= {"cari"})
+	private String cariFilter(@RequestParam(value = "idProvinsi", required = false) Long idProvinsi,
+							  @RequestParam(value = "id_Instansi", required = false) Long id_Instansi,
+							  @RequestParam(value = "id_Jabatan", required = false) Long id_Jabatan, Model model) {
+		
+		model.addAttribute("listPegawai", ((PegawaiService) pegawaiService).getPegawaiDb().findAll());
+		model.addAttribute("allProvinsi", ((ProvinsiService) provinsiService).getProvinsiDb().findAll());
+		model.addAttribute("allInstansi", ((InstansiService) instansiService).getInstansiDb().findAll());
+		model.addAttribute("allJabatan", ((JabatanService) jabatanService).getJabatanDb().findAll());
+		
+		return "cari-pegawai";
 	}
 	
 	@RequestMapping(value = "/pegawai/termuda-tertua", method = RequestMethod.GET)

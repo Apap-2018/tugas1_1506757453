@@ -58,14 +58,18 @@ public class PegawaiModel implements Serializable{
 	@Column(name = "tahun_masuk", nullable = false)
 	private String tahunMasuk;
 	
-	@ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                CascadeType.PERSIST,
-                CascadeType.MERGE
-            })
-    @JoinTable(name = "jabatan_pegawai",
-            joinColumns = { @JoinColumn(name = "id_pegawai") },
-            inverseJoinColumns = { @JoinColumn(name = "id_jabatan") })
+//	@ManyToMany(fetch = FetchType.LAZY,
+//            cascade = {
+//                CascadeType.PERSIST,
+//                CascadeType.MERGE
+//            })
+//    @JoinTable(name = "jabatan_pegawai",
+//            joinColumns = { @JoinColumn(name = "id_pegawai") },
+//            inverseJoinColumns = { @JoinColumn(name = "id_jabatan") })
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "jabatan_pegawai",
+	        joinColumns = @JoinColumn(name = "id_pegawai", referencedColumnName = "id"),
+	        inverseJoinColumns = @JoinColumn(name = "id_jabatan", referencedColumnName = "id"))
     private List<JabatanModel> listJabatan;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

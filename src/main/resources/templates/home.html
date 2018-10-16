@@ -65,6 +65,7 @@
 							<div class="card-body">
 								<label for="jabatan">Pilih Instansi</label>
 								<select name="idInstansi" class="form-control">
+									<option>--- Pilih Instansi ---<option>
 									<option
 					                   th:each="instansi,iterationStatus: ${allInstansi}"
 					                   th:text="${instansi.nama} + ' - ' + ${instansi.provinsi.nama}" th:value="${instansi.id}"></option>
