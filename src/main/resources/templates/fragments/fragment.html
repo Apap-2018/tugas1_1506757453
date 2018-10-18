@@ -11,10 +11,21 @@
 		<head th:fragment="js">
 			<script th:src="@{/js/bootstrap.min.js}"></script>
 		</head>
+		
+		<head th:fragment="common-style">
+			<style type="text/css">
+				body {
+					background-color: #F1F1F2;
+				}
+			</style>
+		</head>
 	</head>
 	
 	<body>
-		<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark" style="background-color: #1995AD;">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    	<span class="navbar-toggler-icon"></span>
+		  	</button>
 			<a class="navbar-brand" th:href="@{/}">SIPEG</a>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
