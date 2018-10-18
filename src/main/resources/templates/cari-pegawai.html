@@ -22,7 +22,7 @@
 			    $("#kriteria-form").submit(function (e) {
 			    	if ($('#form-value1').val() == '' && $('#form-value2').val() == '' && $('#form-value3').val() == '') {
 			            e.preventDefault();
-			    		swal ( "Tidak dapat memfilter pegawai!",  "Anda belum memilih kriteria",  "error");
+			    		swal ( "Tidak dapat mencari pegawai!",  "Anda belum memilih kriteria",  "error");
 			        }
 			    });
 			} );
@@ -34,18 +34,26 @@
 		
 		<div class="container-fluid">
 			<h3>Cari Pegawai</h3>
+			
+			<div th:if="${text} != null" class="alert alert-success alert-dismissible fade show text-center" role="alert">
+			  <a th:text="${text}"></a>
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
 			<div class="row">
 				
 				<div class="col-6">
-					<form th:action="@{/pegawai/cari}" id="kriteria-form" th:object="${pegawai}" method="POST">
+					<form th:action="@{/pegawai/cari}" id="kriteria-form" th:object="${pegawai}" method="GET">
 					<div class="form-group row">
 						<label for="provinsi" class="col-sm-3 col-form-label-md">Provinsi</label>
 						<div class="col-sm-9">
 							<select name="idProvinsi" id="form-value1" class="form-control">
 								<option
 				                   th:each="provinsi,iterationStat: ${allProvinsi}"
-				                   th:text="${provinsi.nama}" th:value="${provinsi.id}"></option>
-					            <option selected hidden value=''>--- Pilih Provinsi  ---</option>
+				                   th:text="${provinsi.nama}" 
+				                   th:selected="${provinsi.id == idProvinsi}" th:value="${provinsi.id}"></option>
+					            <option th:if="${idProvinsi == null}" selected hidden value=''>--- Pilih Provinsi  ---</option>
 							</select>
 						</div>
 					</div>
@@ -55,8 +63,9 @@
 							<select name="id_Instansi" id="form-value2" class="form-control">
 								<option
 				                   th:each="instansi,iterationStat: ${allInstansi}"
-				                   th:text="${instansi.nama} + ' - ' + ${instansi.provinsi.nama}" th:value="${instansi.id}"></option>
-					            <option selected hidden value=''>--- Pilih Instansi  ---</option>
+				                   th:text="${instansi.nama} + ' - ' + ${instansi.provinsi.nama}" 
+				                   th:selected="${instansi.id == id_Instansi}" th:value="${instansi.id}"></option>
+					            <option th:if="${id_Instansi == null}" selected hidden value=''>--- Pilih Instansi  ---</option>
 							</select>
 						</div>
 					</div>
@@ -66,12 +75,13 @@
 							<select name="id_Jabatan" id="form-value3" class="form-control">
 								<option
 				                   th:each="jabatan,iterationStat: ${allJabatan}"
-				                   th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
-				                <option selected hidden value=''>--- Pilih Jabatan  ---</option>
+				                   th:text="${jabatan.nama}" 
+				                   th:selected="${jabatan.id == id_Jabatan}" th:value="${jabatan.id}"></option>
+				                <option th:if="${id_Jabatan == null}" selected hidden value=''>--- Pilih Jabatan  ---</option>
 							</select>
 						</div>
 					</div>
-					<button name="cari" type="submit" class="btn btn-primary mb-2">Cari</button>
+					<button type="submit" class="btn btn-primary mb-2">Cari</button>
 				</form>
 			</div>
 			</div>

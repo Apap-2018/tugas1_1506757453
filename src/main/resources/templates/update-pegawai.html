@@ -47,7 +47,7 @@
 							<option
 			                    th:each="provinsi,iterationStatus: ${allProvinsi}"
 			                    th:text="${provinsi.nama}" th:value="${provinsi.id}"
-			                    th:selected="${pegawai.instansi.provinsi.id}"></option>
+			                    th:selected="${provinsi.id == pegawai.instansi.provinsi.id}"></option>
 						</select>
 					</div>
 				</div>
@@ -58,7 +58,7 @@
 						<select required name="instansi" id="instansi" class="form-control">
 							<option  th:each="instansi, iterationStatus:${allInstansi}"
 								th:text="${instansi.nama} + ' - ' + ${instansi.provinsi.nama}" th:value="${instansi.id}"
-								th:selected="${pegawai.instansi.id}">Pilih Instansi</option>
+								th:selected="${instansi.id == pegawai.instansi.id}">Pilih Instansi</option>
 						</select>
 						
 					</div>
@@ -67,11 +67,11 @@
 					<label for="jabatan" class="col-sm-3 col-form-label-md">Jabatan</label>
 					<div class="col-sm-9">
 						<div th:each="jabatan,iterationStatus : *{listJabatan}">
-							<select required th:field="*{listJabatan[__${iterationStatus.index}__]}" class="form-control">
+							<select required id="*{listJabatan[__${iterationStatus.index}__]}" name="*{listJabatan[__${iterationStatus.index}__]}"class="form-control">
 								<option
 				                   th:each="aJabatan,iterationStat: ${allJabatan}"
 				                   th:text="${aJabatan.nama}" th:value="${aJabatan.id}"
-				                   th:selected="*{listJabatan[__${iterationStatus.index}__].id}"></option>
+				                   th:selected="(*{listJabatan[__${iterationStatus.index}__].id})"></option>
 							</select>
 							<br>
 						</div>

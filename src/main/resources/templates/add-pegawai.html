@@ -6,25 +6,32 @@
 		
 		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
 		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
-	
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+		
 		<script>
-			function sendAjaxRequest() {
-			    var country = $("#country").val();
-			    $.get( "/regions?country=" + country, function( data ) {
-			        $("#region").empty();
-			        data.forEach(function(item, i) {
-			            var option = "<option value = " + item + ">" + item +  "</option>";
-			            $("#region").append(option);
-			        });
+			$(document).ready(function () {
+			    $("#submit").click(function (e) {
+			    	if ($('#instansi').val() == '') {
+			            e.preventDefault();
+			    		swal ( "Tidak dapat menambahkan pegawai!",  "Anda belum memilih instansi",  "error");
+			        }
 			    });
-			};
-			
-			$(document).ready(function() {
-			    $("#country").change(function() {
-			        sendAjaxRequest();
-			    });
+			    
+			    
+			 // $('#provinsi').on('change', function() {
+			    //	$('#instansi').html("");
+			    //	$.getJSON("/instansi/get?provinsi="+this.value, function(data) {
+			    //		$.each(data, function(i, value) {
+			    //			$('#instansi').append($('<option>').text(value.nama));
+			    //		});
+			    //	});
+			 // });
+			    
 			});
 		</script>
+	
 	</head>
 	
 	<body>
@@ -65,7 +72,7 @@
 							<option
 			                    th:each="provinsi,iterationStatus: ${allProvinsi}"
 			                    th:text="${provinsi.nama}" th:value="${provinsi.id}"></option>
-			                <option selected hidden="true">--- Pilih Provinsi  ---</option>
+			                <option selected hidden="true">--- Pilih Provinsi ---</option>
 						</select>
 					</div>
 				</div>
@@ -76,7 +83,7 @@
 						<select required name="instansi" id="instansi" class="form-control">
 							<option  th:each="instansi, iterationStatus:${allInstansi}"
 								th:text="${instansi.nama} + ' - ' + ${instansi.provinsi.nama}" th:value="${instansi.id}">Pilih Instansi</option>
-							<option selected hidden="true">--- Pilih Instansi  ---</option>
+							<option selected hidden="true" value=''>--- Pilih Instansi ---</option>
 						</select>
 						
 					</div>
@@ -85,19 +92,17 @@
 					<label for="jabatan" class="col-sm-3 col-form-label-md">Jabatan</label>
 					<div class="col-sm-9">
 						<div th:each="aJabatan,iterationStatus : *{listJabatan}">
-							<select required th:field="*{listJabatan[__${iterationStatus.index}__]}" class="form-control">
+							<select id='jabatan' required th:field="*{listJabatan[__${iterationStatus.index}__]}" class="form-control">
 								<option
-				                   th:each="jabatan,iterationStat: ${allJabatan}"
-				                   th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
-				                <option selected hidden value=''>--- Pilih Jabatan  ---</option>
+					             th:each="jabatan,iterationStat: ${allJabatan}"
+					             th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
 							</select>
 							<br>
 						</div>
-						
-						<input formnovalidate type="submit" name="addMoreJabatan" value="Tambah jabatan">
+						<button class="btn btn-link btn-sm" formnovalidate type="submit" name="addMoreJabatan">Tambah jabatan</button>
 					</div>
 				</div>
-				<button name="submit" type="submit" class="btn btn-primary mb-2">Simpan</button>
+				<button id="submit" name="submit" type="submit" class="btn btn-primary mb-2">Simpan</button>
 			</form>
 		</div>
 	</body>

@@ -1,6 +1,7 @@
 package com.apap.tugas1.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -126,8 +127,9 @@ public class PegawaiController {
 		//pegawaiService.addPegawai(pegawai);
 	}
 	
-	@RequestMapping(value = "/pegawai/cari", method = RequestMethod.GET)
+	@RequestMapping(value = "/pegawai/cari")
 	private String cari(Model model) {
+		model.addAttribute("text", null);
 		model.addAttribute("listPegawai", ((PegawaiService) pegawaiService).getPegawaiDb().findAll());
 		model.addAttribute("allProvinsi", ((ProvinsiService) provinsiService).getProvinsiDb().findAll());
 		model.addAttribute("allInstansi", ((InstansiService) instansiService).getInstansiDb().findAll());
@@ -135,16 +137,51 @@ public class PegawaiController {
 		return "cari-pegawai";
 	}
 	
-	@RequestMapping(value = "/pegawai/cari", params= {"cari"})
+	@RequestMapping(value = "/pegawai/cari", method = RequestMethod.GET)
 	private String cariFilter(@RequestParam(value = "idProvinsi", required = false) Long idProvinsi,
 							  @RequestParam(value = "id_Instansi", required = false) Long id_Instansi,
 							  @RequestParam(value = "id_Jabatan", required = false) Long id_Jabatan, Model model) {
 		
+		List<PegawaiModel> listPegawai = new ArrayList<PegawaiModel>();
 		
-		model.addAttribute("listPegawai", ((PegawaiService) pegawaiService).getPegawaiDb().findAll());
+		if(idProvinsi != null && id_Instansi != null && id_Jabatan != null) {
+			listPegawai = pegawaiService.getPegawaiDb().findByProvinsiAndInstansiAndJabatan(idProvinsi, id_Instansi, id_Jabatan);
+			model.addAttribute("text", "Hasil pencarian pegawai berdasarkan provinsi, instansi, dan jabatan");
+		}
+		else if (idProvinsi != null && id_Instansi != null && id_Jabatan == null) {
+			listPegawai = pegawaiService.getPegawaiDb().findByProvinsiAndInstansi(idProvinsi, id_Instansi);
+			model.addAttribute("text", "Hasil pencarian pegawai berdasarkan provinsi dan instansi");
+		}
+		else if (idProvinsi != null && id_Instansi == null && id_Jabatan != null) {
+			listPegawai = pegawaiService.getPegawaiDb().findByProvinsiAndJabatan(idProvinsi, id_Jabatan);
+			model.addAttribute("text", "Hasil pencarian pegawai berdasarkan provinsi dan jabatan");
+		}
+		else if (idProvinsi == null && id_Instansi != null && id_Jabatan != null) {
+			listPegawai = pegawaiService.getPegawaiDb().findByInstansiAndJabatan(id_Instansi, id_Jabatan);
+			model.addAttribute("text", "Hasil pencarian pegawai berdasarkan instansi dan jabatan");		
+		}
+		else if (idProvinsi != null && id_Instansi == null && id_Jabatan == null) {
+			listPegawai = pegawaiService.getPegawaiDb().findByProvinsi(idProvinsi);
+			model.addAttribute("text", "Hasil pencarian pegawai berdasarkan provinsi");
+		}
+		else if (idProvinsi == null && id_Instansi != null && id_Jabatan == null) {
+			listPegawai = pegawaiService.getPegawaiDb().findByInstansi(instansiService.getInstansiDb().getOne(id_Instansi));
+			model.addAttribute("text", "Hasil pencarian pegawai berdasarkan instansi");
+		}
+		else if (idProvinsi == null && id_Instansi == null && id_Jabatan != null) {
+			listPegawai = pegawaiService.getPegawaiDb().findByJabatan(id_Jabatan);
+			model.addAttribute("text", "Hasil pencarian pegawai berdasarkan jabatan");
+		}
+		
+		model.addAttribute("listPegawai", listPegawai);
+		//model.addAttribute("listPegawai", ((PegawaiService) pegawaiService).getPegawaiDb().findAll());
 		model.addAttribute("allProvinsi", ((ProvinsiService) provinsiService).getProvinsiDb().findAll());
 		model.addAttribute("allInstansi", ((InstansiService) instansiService).getInstansiDb().findAll());
 		model.addAttribute("allJabatan", ((JabatanService) jabatanService).getJabatanDb().findAll());
+		
+		model.addAttribute("idProvinsi", idProvinsi);
+		model.addAttribute("id_Instansi", id_Instansi);
+		model.addAttribute("id_Jabatan", id_Jabatan);
 		
 		return "cari-pegawai";
 	}
