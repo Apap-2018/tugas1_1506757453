@@ -17,6 +17,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 
 /*
  * FlightModel
@@ -52,6 +55,7 @@ public class JabatanModel implements Serializable{
 	@JoinTable(name = "jabatan_pegawai",
 	        joinColumns = @JoinColumn(name = "id_jabatan", referencedColumnName = "id"),
 	        inverseJoinColumns = @JoinColumn(name = "id_pegawai", referencedColumnName = "id"))
+	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	private List<PegawaiModel> listPegawai;
 
 	public long getId() {

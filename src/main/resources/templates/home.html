@@ -28,7 +28,7 @@
 						<form th:action="@{/pegawai}" method="GET">
 							<div class="card-body">
 								<label for="licenseNumber">Masukkan Nomor Induk Pegawai</label>
-								<input required type="text" name="nip" class="form-control" />
+								<input required placeholder="NIP" type="text" name="nip" class="form-control" />
 								<p></p>
 								<button type="submit" class="btn btn-primary">Lihat</button>
 							</div>
@@ -48,6 +48,7 @@
 									<option
 					                   th:each="jabatan,iterationStatus: ${allJabatan}"
 					                   th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
+					                <option selected hidden>--- Pilih Jabatan  ---</option>
 								</select>
 								<p></p>
 								<button type="submit" class="btn btn-primary">Lihat</button>
@@ -65,10 +66,10 @@
 							<div class="card-body">
 								<label for="jabatan">Pilih Instansi</label>
 								<select name="idInstansi" class="form-control">
-									<option>--- Pilih Instansi ---<option>
 									<option
 					                   th:each="instansi,iterationStatus: ${allInstansi}"
 					                   th:text="${instansi.nama} + ' - ' + ${instansi.provinsi.nama}" th:value="${instansi.id}"></option>
+					                <option selected hidden>--- Pilih Instansi  ---</option>
 								</select>
 								<p></p>
 								<button type="submit" class="btn btn-primary">Lihat</button>

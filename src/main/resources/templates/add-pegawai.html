@@ -6,7 +6,25 @@
 		
 		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
 		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
-
+	
+		<script>
+			function sendAjaxRequest() {
+			    var country = $("#country").val();
+			    $.get( "/regions?country=" + country, function( data ) {
+			        $("#region").empty();
+			        data.forEach(function(item, i) {
+			            var option = "<option value = " + item + ">" + item +  "</option>";
+			            $("#region").append(option);
+			        });
+			    });
+			};
+			
+			$(document).ready(function() {
+			    $("#country").change(function() {
+			        sendAjaxRequest();
+			    });
+			});
+		</script>
 	</head>
 	
 	<body>
@@ -47,16 +65,20 @@
 							<option
 			                    th:each="provinsi,iterationStatus: ${allProvinsi}"
 			                    th:text="${provinsi.nama}" th:value="${provinsi.id}"></option>
+			                <option selected hidden="true">--- Pilih Provinsi  ---</option>
 						</select>
 					</div>
 				</div>
 				<div class="form-group row">
 					<label for="instansi" class="col-sm-3 col-form-label-md">Nama Instansi</label>
 					<div class="col-sm-9">
+
 						<select required name="instansi" id="instansi" class="form-control">
 							<option  th:each="instansi, iterationStatus:${allInstansi}"
 								th:text="${instansi.nama}" th:value="${instansi.id}">Pilih Instansi</option>
+							<option selected hidden="true">--- Pilih Instansi  ---</option>
 						</select>
+						
 					</div>
 				</div>
 				<div class="form-group row">

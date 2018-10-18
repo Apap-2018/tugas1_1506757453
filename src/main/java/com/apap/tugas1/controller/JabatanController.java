@@ -28,9 +28,11 @@ public class JabatanController {
 	}
 	
 	@RequestMapping(value = "/jabatan/tambah", method = RequestMethod.POST)
-	private String addJabatanSubmit(@ModelAttribute JabatanModel jabatan) {
+	private String addJabatanSubmit(@ModelAttribute JabatanModel jabatan, Model model) {
 		jabatanService.addJabatan(jabatan);
-		return "home";
+		
+		model.addAttribute("jabatan", jabatan);
+		return "success-tambah-jabatan";
 	}
 	
 	@RequestMapping(value = "/jabatan/view")
@@ -49,9 +51,10 @@ public class JabatanController {
 	 }
 
 	 @RequestMapping(value = "jabatan/ubah", method = RequestMethod.POST)
-	 private String updateJabatanSubmit(@ModelAttribute JabatanModel jabatan) {
+	 private String updateJabatanSubmit(@ModelAttribute JabatanModel jabatan, Model model) {
 		 jabatan.setId(pass_id_jabatan);
 		 jabatanService.updateJabatan(jabatan);
+		 model.addAttribute("jabatan", jabatan);
 		 
 	     return "update-success";
 	 }
@@ -66,7 +69,7 @@ public class JabatanController {
 	 @RequestMapping(value = "jabatan/viewall", method = RequestMethod.GET)
 	 private String viewAllJabatan(Model model) {
 		 List<JabatanModel> allJabatan = jabatanService.getJabatanDb().findAll(); 
-			
+		 	
 		 model.addAttribute("allJabatan", allJabatan);
 		 return "view-all-jabatan";
 	 }

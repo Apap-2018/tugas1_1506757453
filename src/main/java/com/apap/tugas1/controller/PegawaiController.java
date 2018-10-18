@@ -82,9 +82,10 @@ public class PegawaiController {
 	}
 	
 	@RequestMapping(value = "/pegawai/tambah", params={"submit"}, method = RequestMethod.POST)
-	private String addPegawaiSubmit(@ModelAttribute PegawaiModel pegawai) {
+	private String addPegawaiSubmit(@ModelAttribute PegawaiModel pegawai, Model model) {
 		pegawaiService.addPegawai(pegawai);
 		
+		model.addAttribute("pegawai", pegawai);
 		return "success-tambah-pegawai";
 		//pegawaiService.addPegawai(pegawai);
 	}
@@ -102,7 +103,7 @@ public class PegawaiController {
 		return "add-pegawai";
 	}
 	
-	@RequestMapping(value = "/pegawai/tambah", params= {"addMoreJabatanUpdate"})
+	@RequestMapping(value = "/pegawai/ubah", params= {"addMoreJabatanUpdate"})
 	private String addMoreJabatanUpdate(@ModelAttribute PegawaiModel pegawai, BindingResult bindingResult, Model model) {
 		pegawai.getListJabatan().add(new JabatanModel());
 		
@@ -114,8 +115,10 @@ public class PegawaiController {
 	}
 	
 	@RequestMapping(value = "/pegawai/ubah", params={"submit"}, method = RequestMethod.POST)
-	private String updatePegawaiSubmit(@ModelAttribute PegawaiModel pegawai) {
-		return "success-add-pegawai";
+	private String updatePegawaiSubmit(@ModelAttribute PegawaiModel pegawai, Model model) {
+		
+		model.addAttribute("pegawai", pegawai);
+		return "success-update-pegawai";
 		//pegawaiService.addPegawai(pegawai);
 	}
 	
@@ -132,6 +135,7 @@ public class PegawaiController {
 	private String cariFilter(@RequestParam(value = "idProvinsi", required = false) Long idProvinsi,
 							  @RequestParam(value = "id_Instansi", required = false) Long id_Instansi,
 							  @RequestParam(value = "id_Jabatan", required = false) Long id_Jabatan, Model model) {
+		
 		
 		model.addAttribute("listPegawai", ((PegawaiService) pegawaiService).getPegawaiDb().findAll());
 		model.addAttribute("allProvinsi", ((ProvinsiService) provinsiService).getProvinsiDb().findAll());

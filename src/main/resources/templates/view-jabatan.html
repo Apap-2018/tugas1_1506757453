@@ -6,7 +6,17 @@
 		
 		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
 		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
-
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+		
+		<script>
+			$(document).ready(function(){
+				$("#noDelete").click(function(){
+				   //alert("Data tidak dapat dihapus! Masih ada pegawai yang berjabatan ini");
+				    swal ( "Jabatan tidak dapat dihapus!",  "Masih ada pegawai yang berjabatan ini",  "error");
+				});
+			});
+		</script>
 	</head>
 	
 	<body>
@@ -44,10 +54,14 @@
 					<input type="hidden" th:value="${jabatan.id}" name="idJabatan"></input>
 					<button class="btn btn-alert mb-2" type="submit">Ubah</button>
 				</form>
-				<form th:action="@{/jabatan/hapus}" class="form-inline" method="POST">
+				<form th:if="${jabatan.listPegawai.isEmpty()} == true"  th:action="@{/jabatan/hapus}" class="form-inline" method="POST">
 					<input type="hidden" th:value="${jabatan.id}" name="idJabatan"></input>
 					<button class="btn btn-danger mb-2" type="submit">Hapus</button>
 				</form>
+				<div th:if="${jabatan.listPegawai.isEmpty()} == false">
+					<button id="noDelete" class="btn btn-danger mb-2">Hapus</button>
+				</div>
+				
 			</div>
 			
 		</div>

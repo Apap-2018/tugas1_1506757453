@@ -19,4 +19,5 @@ public class ProvinsiController {
 	public String getListInstansiByProvinsi(@PathVariable("id") Long id) {
 	    return provinsiService.getProvinsiDb().getOne(id).getListInstansi().toString();
 	}
+	
 }	

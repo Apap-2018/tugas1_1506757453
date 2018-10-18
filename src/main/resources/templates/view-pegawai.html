@@ -53,5 +53,12 @@
 					</tr>
 				</tbody>
 			</table>
+			
+			<div class="row">
+				<form th:action="@{/pegawai/ubah}" class="form-inline" method="GET">
+					<input type="hidden" th:value="${pegawai.nip}" name="nip"></input>
+					<button class="btn btn-alert mb-2" type="submit">Ubah</button>
+				</form>
+			</div>
 	</body>
 </html>
