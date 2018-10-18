@@ -1,5 +1,6 @@
 package com.apap.tugas1.service;
 
+
 import com.apap.tugas1.model.PegawaiModel;
 import com.apap.tugas1.repository.PegawaiDb;
 
@@ -12,6 +13,8 @@ public interface PegawaiService {
 	PegawaiModel getDataPegawaiByNIP(String nip);
 	
 	void addPegawai(PegawaiModel pegawai);
+	
+	void updatePegawai(PegawaiModel pegawai);
 	
 	PegawaiModel getPegawaiTertuaDiInstansi(Long idInstansi);
 	

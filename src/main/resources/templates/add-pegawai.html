@@ -75,7 +75,7 @@
 
 						<select required name="instansi" id="instansi" class="form-control">
 							<option  th:each="instansi, iterationStatus:${allInstansi}"
-								th:text="${instansi.nama}" th:value="${instansi.id}">Pilih Instansi</option>
+								th:text="${instansi.nama} + ' - ' + ${instansi.provinsi.nama}" th:value="${instansi.id}">Pilih Instansi</option>
 							<option selected hidden="true">--- Pilih Instansi  ---</option>
 						</select>
 						
@@ -89,9 +89,11 @@
 								<option
 				                   th:each="jabatan,iterationStat: ${allJabatan}"
 				                   th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
+				                <option selected hidden value=''>--- Pilih Jabatan  ---</option>
 							</select>
 							<br>
 						</div>
+						
 						<input formnovalidate type="submit" name="addMoreJabatan" value="Tambah jabatan">
 					</div>
 				</div>

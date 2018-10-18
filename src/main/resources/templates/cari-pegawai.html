@@ -4,13 +4,12 @@
 		<meta charset="ISO-8859-1">
 		<title>Cari Pegawai</title>
 		
-		<script
-		  src="https://code.jquery.com/jquery-3.3.1.js"
-		  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-		  crossorigin="anonymous"></script>
+		
 		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
 		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
 		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
   
@@ -19,6 +18,13 @@
 		<script>
 			$(document).ready( function () {
 			    $('#pegawai_table').DataTable();
+			    
+			    $("#kriteria-form").submit(function (e) {
+			    	if ($('#form-value1').val() == '' && $('#form-value2').val() == '' && $('#form-value3').val() == '') {
+			            e.preventDefault();
+			    		swal ( "Tidak dapat memfilter pegawai!",  "Anda belum memilih kriteria",  "error");
+			        }
+			    });
 			} );
 		</script>
 	</head>
@@ -31,34 +37,37 @@
 			<div class="row">
 				
 				<div class="col-6">
-					<form th:action="@{/pegawai/cari}" th:object="${pegawai}" method="POST">
+					<form th:action="@{/pegawai/cari}" id="kriteria-form" th:object="${pegawai}" method="POST">
 					<div class="form-group row">
 						<label for="provinsi" class="col-sm-3 col-form-label-md">Provinsi</label>
 						<div class="col-sm-9">
-							<select name="provinsi" class="form-control">
+							<select name="idProvinsi" id="form-value1" class="form-control">
 								<option
 				                   th:each="provinsi,iterationStat: ${allProvinsi}"
 				                   th:text="${provinsi.nama}" th:value="${provinsi.id}"></option>
+					            <option selected hidden value=''>--- Pilih Provinsi  ---</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label for="instansi" class="col-sm-3 col-form-label-md">Nama Instansi</label>
 						<div class="col-sm-9">
-							<select name="instansi" class="form-control">
+							<select name="id_Instansi" id="form-value2" class="form-control">
 								<option
 				                   th:each="instansi,iterationStat: ${allInstansi}"
-				                   th:text="${instansi.nama}" th:value="${instansi.id}"></option>
+				                   th:text="${instansi.nama} + ' - ' + ${instansi.provinsi.nama}" th:value="${instansi.id}"></option>
+					            <option selected hidden value=''>--- Pilih Instansi  ---</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label for="jabatan" class="col-sm-3 col-form-label-md">Jabatan</label>
 						<div class="col-sm-9">
-							<select name="jabatan" class="form-control">
+							<select name="id_Jabatan" id="form-value3" class="form-control">
 								<option
 				                   th:each="jabatan,iterationStat: ${allJabatan}"
 				                   th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
+				                <option selected hidden value=''>--- Pilih Jabatan  ---</option>
 							</select>
 						</div>
 					</div>
@@ -91,7 +100,7 @@
 								<td th:text="${pegawai.tempatLahir}"></td>
 								<td th:text="${pegawai.tanggalLahir}"></td>
 								<td th:text="${pegawai.tahunMasuk}"></td>
-								<td th:text="${pegawai.instansi.nama}"></td>
+								<td th:text="${pegawai.instansi.nama} + ' - ' + ${pegawai.instansi.provinsi.nama}"></td>
 								<td>
 									<p>
 										<span th:each="jabatan, iterStat : ${pegawai.listJabatan}">

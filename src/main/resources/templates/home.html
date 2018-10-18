@@ -7,6 +7,28 @@
 		
 		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
 		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+		
+		<script>
+			$(document).ready(function () {
+			    $("#home-form").submit(function (e) {
+			    	if ($('#form-value').val() == '') {
+			            e.preventDefault();
+			    		swal ( "Tidak dapat menampilkan detail jabatan!",  "Anda belum memilih jabatan",  "error");
+			        }
+			    });
+			    
+			    $("#home-form2").submit(function (e2) {
+			    	if ($('#form-value2').val() == '') {
+			            e2.preventDefault();
+			            swal ( "Tidak dapat menampilkan pegawai termuda dan tertua!",  "Anda belum memilih instansi",  "error");
+			        }
+			    });
+			});
+		</script>
+		
 	</head>
 	
 	<body>
@@ -41,14 +63,14 @@
 						<div class="card-header">
 							Lihat Detail Jabatan
 						</div>
-						<form th:action="@{/jabatan/view}" method="GET">
+						<form th:action="@{/jabatan/view}" id="home-form" method="GET">
 							<div class="card-body">
 								<label for="jabatan">Pilih Jabatan</label>
-								<select name="idJabatan" class="form-control">
+								<select required name="idJabatan" id="form-value" class="form-control">
 									<option
 					                   th:each="jabatan,iterationStatus: ${allJabatan}"
 					                   th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
-					                <option selected hidden>--- Pilih Jabatan  ---</option>
+					                <option selected hidden value=''>--- Pilih Jabatan  ---</option>
 								</select>
 								<p></p>
 								<button type="submit" class="btn btn-primary">Lihat</button>
@@ -62,14 +84,14 @@
 						<div class="card-header">
 							Lihat Pegawai Termuda dan Tertua
 						</div>
-						<form th:action="@{/pegawai/termuda-tertua/}" method="GET">
+						<form th:action="@{/pegawai/termuda-tertua/}" id="home-form2" method="GET">
 							<div class="card-body">
 								<label for="jabatan">Pilih Instansi</label>
-								<select name="idInstansi" class="form-control">
+								<select name="idInstansi" id="form-value2" class="form-control">
 									<option
 					                   th:each="instansi,iterationStatus: ${allInstansi}"
 					                   th:text="${instansi.nama} + ' - ' + ${instansi.provinsi.nama}" th:value="${instansi.id}"></option>
-					                <option selected hidden>--- Pilih Instansi  ---</option>
+					                <option selected hidden value=''>--- Pilih Instansi  ---</option>
 								</select>
 								<p></p>
 								<button type="submit" class="btn btn-primary">Lihat</button>

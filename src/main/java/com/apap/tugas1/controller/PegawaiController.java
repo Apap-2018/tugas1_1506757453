@@ -32,7 +32,9 @@ public class PegawaiController {
 	@Autowired
 	private InstansiService instansiService;
 	
+	//Variabel untuk dipass antar controller
 	private PegawaiModel pegawaiArch;
+	private Long id_to_pass;
 	
 	@RequestMapping(value = "/pegawai")
 	private String viewPegawai(@RequestParam("nip") String nip, Model model) {
@@ -93,14 +95,13 @@ public class PegawaiController {
 	@RequestMapping(value = "/pegawai/ubah", method = RequestMethod.GET)
 	private String update(@RequestParam("nip") String nip, Model model) {
 		PegawaiModel pegawai = pegawaiService.getDataPegawaiByNIP(nip);
-		pegawai.setListJabatan(new ArrayList<JabatanModel>());
-		pegawai.getListJabatan().add(new JabatanModel());
+		id_to_pass = pegawai.getId();
 		
 		model.addAttribute("pegawai", pegawai);
 		model.addAttribute("allProvinsi", ((ProvinsiService) provinsiService).getProvinsiDb().findAll());
 		model.addAttribute("allJabatan", ((JabatanService) jabatanService).getJabatanDb().findAll());
 		model.addAttribute("allInstansi", ((InstansiService) instansiService).getInstansiDb().findAll());
-		return "add-pegawai";
+		return "update-pegawai";
 	}
 	
 	@RequestMapping(value = "/pegawai/ubah", params= {"addMoreJabatanUpdate"})
@@ -111,14 +112,17 @@ public class PegawaiController {
 		model.addAttribute("allProvinsi", ((ProvinsiService) provinsiService).getProvinsiDb().findAll());
 		model.addAttribute("allJabatan", ((JabatanService) jabatanService).getJabatanDb().findAll());
 		model.addAttribute("allInstansi", ((InstansiService) instansiService).getInstansiDb().findAll());
-		return "add-pegawai";
+		return "update-pegawai";
 	}
 	
 	@RequestMapping(value = "/pegawai/ubah", params={"submit"}, method = RequestMethod.POST)
 	private String updatePegawaiSubmit(@ModelAttribute PegawaiModel pegawai, Model model) {
+		pegawai.setId(id_to_pass);
+		pegawaiService.updatePegawai(pegawai);
 		
+		pegawai.setNip(pegawaiService.getPegawaiDb().getOne(id_to_pass).getNip());
 		model.addAttribute("pegawai", pegawai);
-		return "success-update-pegawai";
+		return "success-tambah-pegawai";
 		//pegawaiService.addPegawai(pegawai);
 	}
 	
