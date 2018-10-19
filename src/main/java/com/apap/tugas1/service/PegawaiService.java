@@ -14,7 +14,7 @@ public interface PegawaiService {
 	
 	void addPegawai(PegawaiModel pegawai);
 	
-	void updatePegawai(PegawaiModel pegawai);
+	void updatePegawai(PegawaiModel pegawai, Long id);
 	
 	PegawaiModel getPegawaiTertuaDiInstansi(Long idInstansi);
 	

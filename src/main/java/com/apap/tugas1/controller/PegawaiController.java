@@ -119,7 +119,7 @@ public class PegawaiController {
 	@RequestMapping(value = "/pegawai/ubah", params={"submit"}, method = RequestMethod.POST)
 	private String updatePegawaiSubmit(@ModelAttribute PegawaiModel pegawai, Model model) {
 		pegawai.setId(id_to_pass);
-		pegawaiService.updatePegawai(pegawai);
+		pegawaiService.updatePegawai(pegawai, pegawai.getId());
 		
 		pegawai.setNip(pegawaiService.getPegawaiDb().getOne(id_to_pass).getNip());
 		model.addAttribute("pegawai", pegawai);

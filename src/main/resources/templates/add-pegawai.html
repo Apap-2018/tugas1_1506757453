@@ -7,6 +7,7 @@
 		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
 		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
 		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 		
@@ -17,8 +18,7 @@
 			            e.preventDefault();
 			    		swal ( "Tidak dapat menambahkan pegawai!",  "Anda belum memilih instansi",  "error");
 			        }
-			    });
-			    
+			    });			    
 			    
 			 // $('#provinsi').on('change', function() {
 			    //	$('#instansi').html("");
@@ -37,75 +37,112 @@
 	
 	<body>
 		<nav th:replace="fragments/fragment :: navbar"></nav>
-		
-		<div class="col-5">
-			<h3>Tambah Pegawai</h3>
-			<form th:action="@{/pegawai/tambah}" th:object="${pegawai}" method="POST">
-				<input type="hidden" th:value="${pegawai.nip}"></input>
-				<div class="form-group row">
-					<label for="nama" class="col-sm-3 col-form-label-md">Nama</label>
-					<div class="col-sm-9">
-						<input required type="text" name="nama" class="form-control" id="nama" />
-					</div>
-				</div>
-				<div class="form-group row">
-					<label for="tempatLahir" class="col-sm-3 col-form-label-md">Tempat Lahir</label>
-					<div class="col-sm-9">
-						<input required type="text" name="tempatLahir" class="form-control" id="tempatLahir" />
-					</div>
-				</div>
-				<div class="form-group row">
-					<label for="tanggalLahir" class="col-sm-3 col-form-label-md">Tanggal Lahir</label>
-					<div class="col-sm-9">
-						<input required type="date" name="tanggalLahir" class="form-control" id="tanggalLahir" />
-					</div>
-				</div>
-				<div class="form-group row">
-					<label for="tahunMasuk" class="col-sm-3 col-form-label-md">Tahun Masuk</label>
-					<div class="col-sm-9">
-						<input required type="number" name="tahunMasuk" class="form-control" id="tahunMasuk" value="1980"/>
-					</div>
-				</div>
-				<div class="form-group row">
-					<label for="provinsi" class="col-sm-3 col-form-label-md">Provinsi</label>
-					<div class="col-sm-9">
-						<select required name="provinsi" id="provinsi" class="form-control">
-							<option
-			                    th:each="provinsi,iterationStatus: ${allProvinsi}"
-			                    th:text="${provinsi.nama}" th:value="${provinsi.id}"></option>
-			                <option selected hidden="true">--- Pilih Provinsi ---</option>
-						</select>
-					</div>
-				</div>
-				<div class="form-group row">
-					<label for="instansi" class="col-sm-3 col-form-label-md">Nama Instansi</label>
-					<div class="col-sm-9">
-
-						<select required name="instansi" id="instansi" class="form-control">
-							<option  th:each="instansi, iterationStatus:${allInstansi}"
-								th:text="${instansi.nama} + ' - ' + ${instansi.provinsi.nama}" th:value="${instansi.id}">Pilih Instansi</option>
-							<option selected hidden="true" value=''>--- Pilih Instansi ---</option>
-						</select>
-						
-					</div>
-				</div>
-				<div class="form-group row">
-					<label for="jabatan" class="col-sm-3 col-form-label-md">Jabatan</label>
-					<div class="col-sm-9">
-						<div th:each="aJabatan,iterationStatus : *{listJabatan}">
-							<select id='jabatan' required th:field="*{listJabatan[__${iterationStatus.index}__]}" class="form-control">
-								<option
-					             th:each="jabatan,iterationStat: ${allJabatan}"
-					             th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
-							</select>
-							<br>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col" style="margin-left: 25%; margin-right:25%;">
+					<h3 id="page-title" align="center">Tambah Pegawai</h3>
+					<form th:action="@{/pegawai/tambah}" th:object="${pegawai}" method="POST">
+						<input type="hidden" th:value="${pegawai.nip}"></input>
+						<div class="form-group row">
+							<label for="nama" class="col-sm-3 col-form-label-md">Nama</label>
+							<div class="col-sm-9">
+								<input required type="text" name="nama" class="form-control" id="nama" />
+							</div>
 						</div>
-						<button class="btn btn-link btn-sm" formnovalidate type="submit" name="addMoreJabatan">Tambah jabatan</button>
-					</div>
+							<div class="form-group row">
+								<label for="tempatLahir" class="col-sm-3 col-form-label-md">Tempat Lahir</label>
+								<div class="col-sm-9">
+									<input required type="text" name="tempatLahir" class="form-control" id="tempatLahir" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="tanggalLahir" class="col-sm-3 col-form-label-md">Tanggal Lahir</label>
+								<div class="col-sm-9">
+									<input required type="date" name="tanggalLahir" class="form-control" id="tanggalLahir" />
+								</div>
+							</div>
+						<div class="form-group row">
+							<label for="tahunMasuk" class="col-sm-3 col-form-label-md">Tahun Masuk</label>
+							<div class="col-sm-9">
+								<input required type="number" name="tahunMasuk" class="form-control" id="tahunMasuk" value="1980"/>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="provinsi" class="col-sm-3 col-form-label-md">Provinsi</label>
+							<div class="col-sm-9">
+								<select required name="provinsi" id="provinsi" class="form-control">
+									<option
+					                    th:each="provinsi,iterationStatus: ${allProvinsi}"
+					                    th:text="${provinsi.nama}" th:value="${provinsi.id}"></option>
+					                <option selected hidden="true">--- Pilih Provinsi ---</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="instansi" class="col-sm-3 col-form-label-md">Nama Instansi</label>
+							<div class="col-sm-9">
+								<select required name="instansi" id="instansi" class="form-control">
+									<option disabled="disabled" selected="selected" >--- Pilih Instansi ---</option>
+									 <option  th:each="instansi, iterationStatus:${allInstansi}"
+										th:text="${instansi.nama} + ' - ' + ${instansi.provinsi.nama}" th:value="${instansi.id}">Pilih Instansi</option>
+									<option selected hidden="true" value=''>--- Pilih Instansi ---</option> 
+								</select> 
+								<!--  
+									<select th:field="*{instansi}" id="instansi" class="form-control">
+						 				<option disabled="disabled" selected="selected" value=''>--- Pilih Instansi ---</option>
+						 			</select>
+								-->
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="jabatan" class="col-sm-3 col-form-label-md">Jabatan</label>
+							<div class="col-sm-9">
+								<div th:each="aJabatan,iterationStatus : *{listJabatan}">
+									<select id='jabatan' required th:field="*{listJabatan[__${iterationStatus.index}__]}" class="form-control">
+										<option
+							             th:each="jabatan,iterationStat: ${allJabatan}"
+							             th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
+									</select>
+									<p></p>
+								</div>
+								<button class="btn btn-link btn-sm" formnovalidate type="submit" name="addMoreJabatan">Tambah jabatan</button>
+							</div>
+						</div>
+						<button id="submit" name="submit" type="submit" class="btn btn-primary mb-2">Simpan</button>
+					</form>
 				</div>
-				<button id="submit" name="submit" type="submit" class="btn btn-primary mb-2">Simpan</button>
-			</form>
+			</div>
 		</div>
+		
+		<script type="text/javascript">
+		$(document).ready(function(){
+			console.log("hey")
+			$('#provinsi').change(function() {
+				valueProv = $(this).val();
+				$.ajax({
+					type: "GET",
+					url: "http://localhost:8080/pegawai/tambah/instansi?provinsi=",
+					data: {
+						'provinsiId' : valueProv
+					},
+					dataType: 'json',
+					success: function(data) {
+						console.log(data);
+						getIns = '';
+						var size = data.length;
+					
+						for (var i = 0; i<size; i++) {
+							getIns+='<option value="'+data[i].id+'">'+data[i].nama+'</option>';
+							console.log(data[i]);
+							console.log(data[i].nama)
+						}
+						console.log(getIns);
+						$('#instansi').append(getIns);
+					}
+				})
+			})
+		});
+		</script>
 	</body>
 	
 </html>

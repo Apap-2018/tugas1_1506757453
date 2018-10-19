@@ -37,16 +37,16 @@
 		<nav th:replace="fragments/fragment :: navbar"></nav>
 		
 		<div class="container-fluid">
-			<div align="center">
+			<div id="home-title" align="center" >
 				<h2>Sistem Informasi Kepegawaian</h2>
-				<h5>Selamat Datang di Sistem Informasi Kepegawaian</h5>
+				<h5>Selamat Datang di Sistem Informasi Kepegawaian (SIPEG)</h5>
 			</div>
 			<hr>
 			
-			<div class="row">
+			<div class="row" style="margin-top: 50px;">
 				<div class="col-md-4">
 					<div class="card">
-						<div class="card-header">
+						<div class="card-header" style="background-color: #A1D6E2">
 							Lihat Data Pegawai Berdasarkan NIP
 						</div>
 						<form th:action="@{/pegawai}" method="GET">
@@ -62,7 +62,7 @@
 				
 				<div class="col-md-4">
 					<div class="card">
-						<div class="card-header">
+						<div class="card-header" style="background-color: #A1D6E2">
 							Lihat Detail Jabatan
 						</div>
 						<form th:action="@{/jabatan/view}" id="home-form" method="GET">
@@ -83,7 +83,7 @@
 				
 				<div class="col-md-4">
 					<div class="card">
-						<div class="card-header">
+						<div class="card-header" style="background-color: #A1D6E2">
 							Lihat Pegawai Termuda dan Tertua
 						</div>
 						<form th:action="@{/pegawai/termuda-tertua/}" id="home-form2" method="GET">

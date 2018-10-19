@@ -53,7 +53,7 @@ public class PegawaiServiceImpl implements PegawaiService{
 		
 		//kode urutan tanggal lahir sama pegawai
 		String kodeUrutanLahirMasuk = "";
-		List<PegawaiModel> pegawais = pegawaiDb.findByTahunMasukAndTanggalLahir(pegawai.getTahunMasuk(), pegawai.getTanggalLahir());
+		List<PegawaiModel> pegawais = pegawaiDb.findByInstansiAndTahunMasukAndTanggalLahir(pegawai.getInstansi(), pegawai.getTahunMasuk(), pegawai.getTanggalLahir());
 		pegawais.add(pegawai);
 		kodeUrutanLahirMasuk = Integer.toString(pegawais.size());
 		if (Integer.parseInt(kodeUrutanLahirMasuk) < 10) {
@@ -99,16 +99,8 @@ public class PegawaiServiceImpl implements PegawaiService{
 	}
 
 	@Override
-	public void updatePegawai(PegawaiModel pegawai) {
+	public void updatePegawai(PegawaiModel pegawai, Long id) {
 		// TODO Auto-generated method stub
-		PegawaiModel pegawaiToUpdate = pegawaiDb.getOne(pegawai.getId());
-		pegawaiToUpdate.setNama(pegawai.getNama());
-		pegawaiToUpdate.setTempatLahir(pegawai.getTempatLahir());
-		pegawaiToUpdate.setTanggalLahir(pegawai.getTanggalLahir());
-		pegawaiToUpdate.setTahunMasuk(pegawai.getTahunMasuk());
-		pegawaiToUpdate.setInstansi(pegawai.getInstansi());
-		pegawaiToUpdate.setListJabatan(pegawai.getListJabatan());
-		
 		String res="";
 		
 		//kode instansi
@@ -126,8 +118,14 @@ public class PegawaiServiceImpl implements PegawaiService{
 		
 		//kode urutan tanggal lahir sama pegawai
 		String kodeUrutanLahirMasuk = "";
-		List<PegawaiModel> pegawais = pegawaiDb.findByTahunMasukAndTanggalLahir(pegawai.getTahunMasuk(), pegawai.getTanggalLahir());
+		List<PegawaiModel> pegawais = pegawaiDb.findByInstansiAndTahunMasukAndTanggalLahir(pegawai.getInstansi(), pegawai.getTahunMasuk(), pegawai.getTanggalLahir());
+		for (int i = 0; i < pegawais.size(); i++) {
+			if(pegawais.get(i).getId() == pegawai.getId()) {
+				pegawais.remove(i);
+			}
+		}
 		pegawais.add(pegawai);
+		
 		kodeUrutanLahirMasuk = Integer.toString(pegawais.size());
 		if (Integer.parseInt(kodeUrutanLahirMasuk) < 10) {
 			kodeUrutanLahirMasuk = "0" + kodeUrutanLahirMasuk;
@@ -135,6 +133,14 @@ public class PegawaiServiceImpl implements PegawaiService{
 		
 		res = kodeInstansi + kodeTglLahir + kodeThnMasuk + kodeUrutanLahirMasuk;
 		
+		PegawaiModel pegawaiToUpdate = pegawaiDb.getOne(pegawai.getId());
+		pegawaiToUpdate.setNama(pegawai.getNama());
+		pegawaiToUpdate.setTempatLahir(pegawai.getTempatLahir());
+		pegawaiToUpdate.setTanggalLahir(pegawai.getTanggalLahir());
+		pegawaiToUpdate.setTahunMasuk(pegawai.getTahunMasuk());
+		pegawaiToUpdate.setInstansi(pegawai.getInstansi());
+		pegawaiToUpdate.setListJabatan(pegawai.getListJabatan());
+				
 		pegawaiToUpdate.setNip(res);
 
         

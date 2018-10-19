@@ -18,7 +18,7 @@ import com.apap.tugas1.model.PegawaiModel;
 public interface PegawaiDb extends JpaRepository<PegawaiModel, Long>{
 	PegawaiModel findBynip(String nip);
 	
-	List<PegawaiModel> findByTahunMasukAndTanggalLahir(String tahunMasuk, Date tanggalLahir);
+	List<PegawaiModel> findByInstansiAndTahunMasukAndTanggalLahir(InstansiModel instansi, String tahunMasuk, Date tanggalLahir);
 	
 	@Query(value = "SELECT p.* FROM pegawai p, provinsi pr, instansi i WHERE p.id_instansi = i.id AND i.id_provinsi = pr.id AND pr.id = :idProvinsi"
 			, nativeQuery = true)
