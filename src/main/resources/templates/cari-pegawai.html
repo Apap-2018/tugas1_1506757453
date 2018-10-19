@@ -4,11 +4,11 @@
 		<meta charset="ISO-8859-1">
 		<title>Cari Pegawai</title>
 		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		
 		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
 		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
-		
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+	
 		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
@@ -35,13 +35,12 @@
 		<nav th:replace="fragments/fragment :: navbar"></nav>
 		
 		<div class="container-fluid">
-			<h3>Cari Pegawai</h3>
+			<h3 align="center" id="page-title">Cari Pegawai</h3>
 			
-			<div th:if="${text} != null" class="alert alert-success text-center">
+			<div th:if="${text} != null" class="alert alert-success text-center" style="margin-left:25%; margin-right:25%;">
 			  <a th:text="${text}"></a>
 			</div>
-			<div class="row">
-				
+			<div class="row" style="margin-left:5%; margin-right:5%; margin-top:10px;">
 				<div class="col-6">
 					<form th:action="@{/pegawai/cari}" id="kriteria-form" th:object="${pegawai}" method="GET">
 					<div class="form-group row">
@@ -87,7 +86,7 @@
 			
 			<hr>
 			
-			<div class="row">
+			<div class="row" style="margin-left:5%; margin-right:5%;">
 				<div class="col">
 					<table border="1" id="pegawai_table">
 						<caption>Daftar Pegawai</caption>

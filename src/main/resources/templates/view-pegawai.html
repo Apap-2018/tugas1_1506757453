@@ -4,6 +4,8 @@
 		<meta charset="ISO-8859-1">
 		<title>Detail Pegawai</title>
 		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		
 		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
 		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
 		<object th:include="fragments/fragment :: common-style" th:remove="tag"></object>
@@ -11,55 +13,37 @@
 	<body>
 		<nav th:replace="fragments/fragment :: navbar"></nav>
 		
-		<h3 th:text="'Lihat Data Pegawai - ' + ${pegawai.nip}"></h3>
-			<table>
-				<tbody>
-					<tr>
-						<td>NIP:</td>
-						<td th:text="${pegawai.nip}"></td>
-					</tr>
-					<tr>
-						<td>Nama:</td>
-						<td th:text="${pegawai.nama}"></td>
-					</tr>
-					<tr>
-						<td>Tempat Lahir:</td>
-						<td th:text="${pegawai.tempatLahir}"></td>
-					</tr>
-					<tr>
-						<td>Tanggal Lahir:</td>
-						<td th:text="${pegawai.tanggalLahir}"></td>
-					</tr>
-					<tr>
-						<td>Tahun Masuk:</td>
-						<td th:text="${pegawai.tahunMasuk}"></td>
-					</tr>
-					<tr>
-						<td>Nama Instansi:</td>
-						<td th:text="${pegawai.instansi.nama} + ' - ' + ${pegawai.instansi.provinsi.nama}"></td>
-					</tr>
-					<tr>
-						<td>Jabatan:</td>
-						<td>
-							<ul>
-								<li th:each="jabatan,iterationStatus: ${pegawai.listJabatan}">
-									<a th:text="${jabatan.nama}"></a>
-								</li>
-							</ul>
-						</td>
-					</tr>
-					<tr>
-						<td>Gaji:</td>
-						<td th:text="'Rp' + ${gaji}"></td>
-					</tr>
-				</tbody>
-			</table>
-			
+		<div class="container-fluid">
+			<h3 style="margin-bottom: 20px;" id="page-title" align="center" th:text="'Lihat Data Pegawai - ' + ${pegawai.nip}"></h3>
 			<div class="row">
-				<form th:action="@{/pegawai/ubah}" class="form-inline" method="GET">
-					<input type="hidden" th:value="${pegawai.nip}" name="nip"></input>
-					<button class="btn btn-alert mb-2" type="submit">Ubah</button>
-				</form>
+				<div class="col">
+					<div class="card text-center" style="width: 30rem; margin: 0 auto;">
+					  <div class="card-header">
+					    <a th:text="'NIP: ' + ${pegawai.nip}"></a>
+					  </div>
+					  <div class="card-body">
+					    <h5 class="card-title" th:text="${pegawai.nama}"></h5>
+					    <p class="card-text" th:text="${pegawai.tempatLahir} + ', ' + ${pegawai.tanggalLahir}"></p>
+					    <p class="card-text" th:text="'Pegawai di ' + ${pegawai.instansi.nama} + ' - ' + ${pegawai.instansi.provinsi.nama}"></p>
+					    <p class="card-text" th:text="'Sejak ' + ${pegawai.tahunMasuk}"></p>
+					    <p class="card-text">
+							<span th:each="jabatan, iterStat : ${pegawai.listJabatan}">
+								<strong><a th:text="${jabatan.nama}"></a></strong>
+								<a th:if="${iterStat.last} == false" th:text="'| '"></a>	
+							</span>
+						</p>
+					    <form th:action="@{/pegawai/ubah}" class="form-inline" method="GET">
+							<input type="hidden" th:value="${pegawai.nip}" name="nip"></input>
+							<button style="margin: 0 auto;" class="btn btn-info mb-2" type="submit">Ubah</button>
+						</form>
+					  </div>
+					  <div class="card-footer text-muted">
+					    <a th:text="'Gaji: Rp' + ${gaji}"></a>
+					  </div>
+					</div>
+				</div>
 			</div>
+			
+		</div>
 	</body>
 </html>

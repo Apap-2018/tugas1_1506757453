@@ -10,7 +10,11 @@
 		</head>
 		
 		<head th:fragment="js">
-			<script th:src="@{/js/bootstrap.min.js}"></script>
+			<script th:src="@{/js/bootstrap.js}"></script>
+		</head>
+		
+		<head th:fragment="jquery">
+			<link href="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
 		</head>
 		
 		<head th:fragment="common-style">
@@ -38,10 +42,10 @@
 	
 	<body>
 		<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark" style="background-color: #1995AD;">
+			<a class="navbar-brand" th:href="@{/}">SIPEG</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		    	<span class="navbar-toggler-icon"></span>
 		  	</button>
-			<a class="navbar-brand" th:href="@{/}">SIPEG</a>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">

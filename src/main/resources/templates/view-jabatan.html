@@ -4,9 +4,11 @@
 		<meta charset="ISO-8859-1">
 		<title>Detail Jabatan</title>
 		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		
 		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
 		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+		 
 		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 		
 		<script>
@@ -23,50 +25,54 @@
 	
 	<body>
 		<nav th:replace="fragments/fragment :: navbar"></nav>
-		
-		<div class="col-5">
-			<h3 th:text="'Detail Jabatan ' + ${jabatan.nama}"></h3>
+		<div class="container-fluid">
+			<h3 align="center" id="page-title" th:text="'Detail Jabatan ' + ${jabatan.nama}"></h3>
 			<div class="row">
-				<label for="nama" class="col-sm-3 col-form-label-md">Nama</label>
-					<div class="col-sm-9">
-						<p th:text="${jabatan.nama}"></p>
+				<div class="col" style="margin-left:25%; margin-right:25%; margin-top:20px;">
+					<div class="row">
+						<label for="nama" class="col-sm-3 col-form-label-md">Nama</label>
+							<div class="col-sm-9">
+								<p th:text="': ' + ${jabatan.nama}"></p>
+							</div>
 					</div>
-			</div>
-			<div class="row">
-				<label for="deskripsi" class="col-sm-3 col-form-label-md">Deskripsi</label>
-					<div class="col-sm-9">
-						<p th:text="${jabatan.deskripsi}"></p>
+					<div class="row">
+						<label for="deskripsi" class="col-sm-3 col-form-label-md">Deskripsi</label>
+							<div class="col-sm-9">
+								<p th:text="': ' + ${jabatan.deskripsi}"></p>
+							</div>
 					</div>
-			</div>
-			<div class="row">
-				<label for="gajiPokok" class="col-sm-3 col-form-label-md">Gaji Pokok</label>
-					<div class="col-sm-9">
-						<p th:text="${jabatan.gajiPokok}"></p>
+					<div class="row">
+						<label for="gajiPokok" class="col-sm-3 col-form-label-md">Gaji Pokok</label>
+							<div class="col-sm-9">
+								<p th:text="': ' + ${jabatan.gajiPokok}"></p>
+							</div>
 					</div>
-			</div>
-			<div class="row">
-				<label for="jumlahPegawai" class="col-sm-3 col-form-label-md">Jumlah Pegawai</label>
-					<div class="col-sm-9">
-						<p th:text="${jabatan.listPegawai.size()}"></p>
+					<div class="row">
+						<label for="jumlahPegawai" class="col-sm-3 col-form-label-md">Jumlah Pegawai</label>
+							<div class="col-sm-9">
+								<p th:text="': ' + ${jabatan.listPegawai.size()}"></p>
+							</div>
 					</div>
-			</div>
-			
-			<div class="row">
-				<form th:action="@{/jabatan/ubah}" class="form-inline" method="GET">
-					<input type="hidden" th:value="${jabatan.id}" name="idJabatan"></input>
-					<button class="btn btn-alert mb-2" type="submit">Ubah</button>
-				</form>
-				<form th:if="${jabatan.listPegawai.isEmpty()} == true"  th:action="@{/jabatan/hapus}" class="form-inline" method="POST">
-					<input type="hidden" th:value="${jabatan.id}" name="idJabatan"></input>
-					<button class="btn btn-danger mb-2" type="submit">Hapus</button>
-				</form>
-				<div th:if="${jabatan.listPegawai.isEmpty()} == false">
-					<button id="noDelete" class="btn btn-danger mb-2">Hapus</button>
+					
+					<div class="row">
+						<form th:action="@{/jabatan/ubah}" class="form-inline" method="GET">
+							<input type="hidden" th:value="${jabatan.id}" name="idJabatan"></input>
+							<button style="margin-right:10px" class="btn btn-alert mb-2" type="submit">Ubah</button>
+						</form>
+						<form th:if="${jabatan.listPegawai.isEmpty()} == true"  th:action="@{/jabatan/hapus}" class="form-inline" method="POST">
+							<input type="hidden" th:value="${jabatan.id}" name="idJabatan"></input>
+							<button class="btn btn-danger mb-2" type="submit">Hapus</button>
+						</form>
+						<div th:if="${jabatan.listPegawai.isEmpty()} == false">
+							<button id="noDelete" class="btn btn-danger mb-2">Hapus</button>
+						</div>
+						
+					</div>
+					
 				</div>
-				
 			</div>
-			
 		</div>
+		
 	</body>
 	
 </html>

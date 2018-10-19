@@ -146,5 +146,23 @@ public class PegawaiServiceImpl implements PegawaiService{
         
         pegawaiDb.save(pegawaiToUpdate);
 	}
+
+	@Override
+	public double calculateGaji(PegawaiModel pegawai) {
+		// TODO Auto-generated method stub
+		double gajiPegawai = pegawai.getListJabatan().get(0).getGajiPokok();
+		if(pegawai.getListJabatan().size() > 1) {
+			for (int i=1; i<pegawai.getListJabatan().size(); i++) {
+				 if (pegawai.getListJabatan().get(i).getGajiPokok() > gajiPegawai) {
+					 gajiPegawai = pegawai.getListJabatan().get(i).getGajiPokok();
+				 }
+			}
+		}
+			
+		double tunjangan = pegawai.getInstansi().getProvinsi().getPresentaseTunjangan()/100;
+		gajiPegawai = gajiPegawai + (tunjangan * gajiPegawai);
+		
+		return gajiPegawai;
+	}
 	
 }

@@ -19,5 +19,7 @@ public interface PegawaiService {
 	PegawaiModel getPegawaiTertuaDiInstansi(Long idInstansi);
 	
 	PegawaiModel getPegawaiTermudaDiInstansi(Long idInstansi);
+	
+	double calculateGaji(PegawaiModel pegawai);
 
 }

@@ -40,19 +40,9 @@ public class PegawaiController {
 	@RequestMapping(value = "/pegawai")
 	private String viewPegawai(@RequestParam("nip") String nip, Model model) {
 		PegawaiModel pegawai = pegawaiService.getDataPegawaiByNIP(nip);
-			
-		double gajiPegawai = pegawai.getListJabatan().get(0).getGajiPokok();
-		if(pegawai.getListJabatan().size() > 1) {
-			for (int i=1; i<pegawai.getListJabatan().size(); i++) {
-				 if (pegawai.getListJabatan().get(i).getGajiPokok() > gajiPegawai) {
-					 gajiPegawai = pegawai.getListJabatan().get(i).getGajiPokok();
-				 }
-			}
-		}
-			
-		double tunjangan = pegawai.getInstansi().getProvinsi().getPresentaseTunjangan()/100;
-		gajiPegawai = gajiPegawai + (tunjangan * gajiPegawai);
-		String gaji = String.format ("%.0f", gajiPegawai);
+		double gajiFinal = pegawaiService.calculateGaji(pegawai);
+
+		String gaji = String.format ("%.0f", gajiFinal);
 			
 		model.addAttribute("gaji", gaji);
 		model.addAttribute("pegawai", pegawai);
@@ -191,8 +181,16 @@ public class PegawaiController {
 		PegawaiModel tertua = pegawaiService.getPegawaiTertuaDiInstansi(idInstansi);
 		PegawaiModel termuda = pegawaiService.getPegawaiTermudaDiInstansi(idInstansi);
 		
+		double gajiTertuaFinal = pegawaiService.calculateGaji(tertua);
+		double gajiTermudaFinal = pegawaiService.calculateGaji(termuda);
+		
+		String gajiTertua = String.format ("%.0f", gajiTertuaFinal);
+		String gajiTermuda = String.format ("%.0f", gajiTermudaFinal);
+		
 		model.addAttribute("tertua", tertua);
+		model.addAttribute("gajiTertua", gajiTertua);
 		model.addAttribute("termuda", termuda);
+		model.addAttribute("gajiTermuda", gajiTermuda);
 		return "view-pegawai-tertua-termuda";
 	}
 	
