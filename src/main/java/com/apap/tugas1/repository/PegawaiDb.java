@@ -2,6 +2,7 @@ package com.apap.tugas1.repository;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +17,9 @@ import com.apap.tugas1.model.PegawaiModel;
  */
 @Repository
 public interface PegawaiDb extends JpaRepository<PegawaiModel, Long>{
-	PegawaiModel findBynip(String nip);
+	//PegawaiModel findBynip(String nip);
+	
+	Optional<PegawaiModel> findBynip(String nip);
 	
 	List<PegawaiModel> findByInstansiAndTahunMasukAndTanggalLahir(InstansiModel instansi, String tahunMasuk, Date tanggalLahir);
 	
@@ -50,6 +53,11 @@ public interface PegawaiDb extends JpaRepository<PegawaiModel, Long>{
 	List<PegawaiModel> findByProvinsiAndInstansiAndJabatan(@Param("idProvinsi") Long idProvinsi,
 														   @Param("id_Instansi") Long id_Instansi,
 														   @Param("id_Jabatan") Long id_Jabatan);
+	
+	@Query(value = "INSERT INTO jabatan_pegawai (id_pegawai, id_jabatan) VALUES (:id_pegawai, :idJabatan)"
+			, nativeQuery = true)
+	void updateJabatanPegawai(@Param("id_pegawai") Long id_pegawai,
+							  @Param("idJabatan") Long idJabatan);
 	
 	
 	

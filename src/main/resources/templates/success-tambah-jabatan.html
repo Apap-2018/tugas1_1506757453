@@ -14,7 +14,9 @@
 	
 	<body>
 		<nav th:replace="fragments/fragment :: navbar"></nav>
-		<h2>Sukses!</h2>
-		<p th:text="'Jabatan ' + ${jabatan.nama} + ' berhasil ditambahkan'"></p>
+		<div id="home-title" align="center">
+			<h2>Sukses!</h2>
+			<p th:text="'Jabatan ' + ${jabatan.nama} + ' berhasil ditambahkan'"></p>
+		</div>
 	</body>
 </html>

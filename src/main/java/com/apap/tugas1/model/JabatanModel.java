@@ -51,11 +51,8 @@ public class JabatanModel implements Serializable{
 //                CascadeType.MERGE
 //            },
 //            mappedBy = "listJabatan")
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "jabatan_pegawai",
-	        joinColumns = @JoinColumn(name = "id_jabatan", referencedColumnName = "id"),
-	        inverseJoinColumns = @JoinColumn(name = "id_pegawai", referencedColumnName = "id"))
-	@OnDelete(action = OnDeleteAction.NO_ACTION)
+	@ManyToMany(
+			mappedBy = "listJabatan")
 	private List<PegawaiModel> listPegawai;
 
 	public long getId() {

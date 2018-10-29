@@ -3,9 +3,19 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<title>404 Not Found</title>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		
+		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+		
+		<object th:include="fragments/fragment :: common-style" th:remove="tag"></object>
 	</head>
 	
 	<body>
-		<h2>Halaman tidak ditemukan</h2>
+		<nav th:replace="fragments/fragment :: navbar"></nav>
+		<div id="home-title">
+			<h2 align="center">Halaman tidak ditemukan!</h2>
+		</div>
 	</body>
 </html>

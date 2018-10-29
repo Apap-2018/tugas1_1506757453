@@ -66,7 +66,7 @@ public class PegawaiModel implements Serializable{
 //    @JoinTable(name = "jabatan_pegawai",
 //            joinColumns = { @JoinColumn(name = "id_pegawai") },
 //            inverseJoinColumns = { @JoinColumn(name = "id_jabatan") })
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "jabatan_pegawai",
 	        joinColumns = @JoinColumn(name = "id_pegawai", referencedColumnName = "id"),
 	        inverseJoinColumns = @JoinColumn(name = "id_jabatan", referencedColumnName = "id"))
@@ -77,6 +77,16 @@ public class PegawaiModel implements Serializable{
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JsonIgnore
 	private InstansiModel instansi;
+	
+	public void addJabatan(JabatanModel jabatan) {
+		this.listJabatan.add(jabatan);
+		jabatan.getListPegawai().add(this);
+	}
+
+	public void removeJabatan(JabatanModel jabatan) {
+		this.listJabatan.remove(jabatan);
+		jabatan.getListPegawai().remove(this);
+	}
 
 	public long getId() {
 		return id;
